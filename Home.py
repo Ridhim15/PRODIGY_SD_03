@@ -58,3 +58,5 @@ st.markdown(
     Let's **LINKup** your connections today!
     """
 )
+
+# This is a simple strealit app for a contact management system ( i interegrated mongodb with it)

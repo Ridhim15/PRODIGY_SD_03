@@ -36,3 +36,4 @@ if st.button("Search"):
             st.write("No contacts found.")
     else:
         st.error("Please enter a search query.")
+
