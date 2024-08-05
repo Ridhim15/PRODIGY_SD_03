@@ -1,21 +1,34 @@
+import os
+from dotenv import load_dotenv
 import streamlit as st
 from streamlit_phone_number import st_phone_number
 from pymongo import MongoClient
 
-# Connect to MongoDB
-CLIENT=MongoClient('mongodb+srv://ridhim:ridhim@streamlit-contact.0tkyzyd.mongodb.net/?retryWrites=true&w=majority&appName=Streamlit-Contact')
+# Load environment variables from .env file
+load_dotenv()
 
-db=CLIENT["contacts_db"]
-contacts_collec=db["contacts_collection"]
+# Connect to MongoDB
+MONGO_URI = os.getenv('MONGO_URI')
+CLIENT = MongoClient(MONGO_URI)
+
+db = CLIENT["contacts_db"]
+contacts_collec = db["contacts_collection"]
 
 
 # Function to create a new contact
 def create_new_contact(name, email, phone, address):
-    # Creating a dictionary to hold the contact details
+
+    country_code = phone.get('countryCallingCode', '')
+    national_number = phone.get('nationalNumber', '')
+    
+    # Format the phone number in the desired format
+    formatted_phone = f"+{country_code} {national_number}"
+    
+    # Create a dictionary to hold the contact details
     contact = {
         'name': name,
         'email': email,
-        'phone': phone,
+        'phone': formatted_phone,
         'address': address,
     }
     try: 
